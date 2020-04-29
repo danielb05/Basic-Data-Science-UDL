@@ -76,7 +76,13 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/
+/data/*/*
+!/data/*/*.sh
+
+# Exclide models
+/models/*
+
+!.gitkeep
 
 # Mac OS-specific storage files
 .DS_Store
@@ -87,3 +93,10 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+# Openrefine
+openrefine/dbextension
+openrefine/workspace.json
+
+# TODO: Should we include it
+openrefine/*.project 

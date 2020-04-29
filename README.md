@@ -1,10 +1,55 @@
-Basic Data Science UdL
-======================
+# Basic Data Science UdL
 
 Data Processing Subject project
 
-Project Organization
---------------------
+## Download RAW data
+
+1. Navigate under `data/raw` directory.
+
+```bash
+$ cd data/raw
+```
+
+2. Give execution permissions to `download_raw.sh`.
+
+```bash
+$ chmod +x download_raw.sh
+```
+
+3. Run the script
+
+```bash
+$ ./download_raw.sh
+```
+
+4. Take a look to the directory if the data is downloaded under the `measures`,
+`cryptocurrencypricehistory` directories and `iris.data`.
+
+## Running Openrefine
+
+1. Navigate under `openrefine` directory.
+
+```bash
+$ cd openrefine
+```
+
+2. Build the docker image
+
+```bash
+$ docker build -t openrefine .
+```
+
+3. Run the container
+
+```bash
+$ docker run -p 3333:3333 -v $(pwd):/data openrefine
+```
+
+4. Open your web browser and navigate to `localhost:3333`.
+
+## Project Organization
+
+```
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
@@ -51,7 +96,6 @@ Project Organization
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
-
---------
+```
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
