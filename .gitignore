@@ -98,5 +98,5 @@ target/
 openrefine/dbextension
 openrefine/workspace.json
 
-# TODO: Should we include it
+# TODO: Should we include it?
 openrefine/*.project 

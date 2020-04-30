@@ -3,8 +3,10 @@
 
 # Scikit stack
 pandas>=1.0.3
+matplotlib>=3.2.1
+scikit-learn>=0.22.2.post1
 
-# external requirements
+# CLI Parser
 click>=7.1.2
 
 # Documentation
