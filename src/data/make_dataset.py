@@ -4,16 +4,37 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
+import pandas as pd
 
-@click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+
+@click.group()
+def main():
+    pass
+
+
+@main.command()
+@click.argument('input_filepath', type=click.Path(exists=True, dir_okay=False),
+                default='data/raw/iris.data')
+@click.argument('output_filepath', type=click.Path(dir_okay=False),
+                default='data/processed/iris.csv')
+def iris(input_filepath, output_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
+    columns = ['sepal_length', 
+               'sepal_width', 
+               'petal_length', 
+               'petal_width', 
+               'class']
+
     logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    logger.info('making final data set from raw iris data')
+
+    logger.info(f'reading source file from {input_filepath}')
+    df = pd.read_csv(input_filepath, header=None, names=columns)
+    
+    logger.info(f'writting new csv file to {output_filepath}')
+    df.to_csv(output_filepath, index=False)
 
 
 if __name__ == '__main__':
@@ -28,3 +49,4 @@ if __name__ == '__main__':
     load_dotenv(find_dotenv())
 
     main()
+
