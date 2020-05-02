@@ -5,6 +5,6 @@ setup(
     packages=find_packages(),
     version='0.1.0',
     description='Data Processing Subject project',
-    author='Daniel Braga, Marc Viladegut, Guillem Orellana',
+    author='Daniel Vieira, Marc Viladegut, Guillem Orellana',
     license='MIT',
 )
