@@ -64,7 +64,7 @@ def measures(input_directory, output_directory, interim_directory):
                  for o in interim_dir.glob(f'*-{s}-*')]
         dfs, units = zip(*reads)
 
-        df = pd.merge(*dfs, 'left', 'time')
+        df = pd.merge(*dfs, 'outer', 'time')
         df.rename(columns=dict(
             value_x=units_mapper[units[0]],
             value_y=units_mapper[units[1]]), inplace=True)
@@ -125,13 +125,14 @@ def cryptocurrency(input_directory, output_directory):
     output_dir.mkdir(exist_ok=True)
 
     col_list = ["Date", "Close"]
-    num = 1
+    num = 0
 
     files = input_dir.glob('*.csv')
 
-    df_cc = pd.read_csv(input_dir / 'bitcoin_cash_price.csv', 
-                        index_col='Date', usecols=col_list)
-    df_cc.rename(columns={df_cc.columns[0]:'bitcoin_cash_price'}, inplace=True)
+    df_cc = None
+    # pd.read_csv(input_dir / 'bitcoin_cash_price.csv', 
+    #                     index_col='Date', usecols=col_list)
+    # df_cc.rename(columns={df_cc.columns[0]:'bitcoin_cash_price'}, inplace=True)
 
     for filename in files:
         if (filename.stem != 'bitcoin_dataset' and 
@@ -139,7 +140,10 @@ def cryptocurrency(input_directory, output_directory):
             
             nf = filename.stem
             df = pd.read_csv(filename, index_col='Date', usecols=col_list)
-            df_cc = df_cc.merge(df, 'left', 'Date')
+            if df_cc is None:
+                df_cc = df 
+            else:
+                df_cc = df_cc.merge(df, 'outer', 'Date')
 
             df_cc.rename(columns={df_cc.columns[num]:nf}, inplace=True)
 
