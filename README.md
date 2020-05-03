@@ -2,6 +2,13 @@
 
 Data Processing Subject project
 
+## Basic Data Science Project Modified files
+
+- We developed all the Jupyter Notebooks under `notebooks` directory.
+- We created three different subcommands in 
+[`make_dataset` script](src/data/make_dataset.py) in order to clean the three
+proposed datasets.
+
 ## Download RAW data
 
 1. Navigate under `data/raw` directory.
@@ -46,6 +53,26 @@ $ docker run -p 3333:3333 -v $(pwd):/data openrefine
 ```
 
 4. Open your web browser and navigate to `localhost:3333`.
+
+## Download and cleaning data
+
+This project contains three different datasets:
+
+- Iris
+- Measures
+- Cryptocurrencies
+
+To download the three datasets navigate inside `data/raw` directory and run the 
+[downloader](#download-raw-data).
+
+Then to clean the data you can either run the notebooks in the specified order,
+or run the make_dataset script for each dataset:
+
+```bash
+$ python -m src.data.make_dataset iris
+$ python -m src.data.make_dataset measures
+$ python -m src.data.make_dataset cryptocurrency # TODO
+```
 
 ## Project Organization
 

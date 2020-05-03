@@ -108,6 +108,57 @@ def measures(input_directory, output_directory, interim_directory):
         s_df.to_csv(output_dir / f'{s}.csv')
 
 
+@main.command()
+@click.argument('input_directory', 
+                type=click.Path(exists=True, file_okay=False),
+                default='data/raw/cryptocurrencypricehistory')
+@click.argument('output_directory', type=click.Path(file_okay=False),
+                default='data/processed/cryptocurrencypricehistory')
+def cryptocurrency(input_directory, output_directory):
+    logger = logging.getLogger(__name__)
+
+    logger.info('Creating directories structures')
+    input_dir = Path(input_directory)
+    output_dir = Path(output_directory)
+    
+    input_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(exist_ok=True)
+
+    col_list = ["Date", "Close"]
+    num = 1
+
+    files = input_dir.glob('*.csv')
+
+    df_cc = pd.read_csv(input_dir / 'bitcoin_cash_price.csv', 
+                        index_col='Date', usecols=col_list)
+    df_cc.rename(columns={df_cc.columns[0]:'bitcoin_cash_price'}, inplace=True)
+
+    for filename in files:
+        if (filename.stem != 'bitcoin_dataset' and 
+                filename.stem != 'ethereum_dataset'):
+            
+            nf = filename.stem
+            df = pd.read_csv(filename, index_col='Date', usecols=col_list)
+            df_cc = df_cc.merge(df, 'left', 'Date')
+
+            df_cc.rename(columns={df_cc.columns[num]:nf}, inplace=True)
+
+            num += 1
+
+    df_bit = pd.read_csv(input_dir / 'bitcoin_dataset.csv', index_col='Date')
+    df_eth = pd.read_csv(input_dir / 'ethereum_dataset.csv', 
+                         index_col='Date(UTC)')
+
+
+    df_cc.fillna(0., inplace=True)
+    df_bit.fillna(0., inplace=True)
+    df_eth.fillna(0., inplace=True)
+    
+    df_cc.to_csv(output_dir / 'cryptocurrency_close_values.csv')
+    df_bit.to_csv(output_dir / 'bitcoin_dataset.csv')
+    df_eth.to_csv(output_dir / 'ethereum_dataset.csv')
+
+
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(level=logging.INFO, format=log_fmt)
