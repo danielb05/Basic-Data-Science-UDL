@@ -71,7 +71,7 @@ or run the make_dataset script for each dataset:
 ```bash
 $ python -m src.data.make_dataset iris
 $ python -m src.data.make_dataset measures
-$ python -m src.data.make_dataset cryptocurrency # TODO
+$ python -m src.data.make_dataset cryptocurrency
 ```
 
 ## Project Organization
